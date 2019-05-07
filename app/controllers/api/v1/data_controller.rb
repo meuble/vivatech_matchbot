@@ -1,4 +1,8 @@
 class Api::V1::DataController < ApplicationController
+  include Authenticable
+  include ExceptionHandler
+  before_action :require_token
+  
   def create
     permitted_params = data_params
     @datum = Datum.new(permitted_params)

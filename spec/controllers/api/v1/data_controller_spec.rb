@@ -31,6 +31,10 @@ RSpec.describe Api::V1::DataController, type: :controller do
     end
     
     describe "with authentication" do
+      before :each do
+        allow(controller).to receive(:require_token).and_return(true)
+      end
+
       describe "with valid parameters" do
         before :each do
           @data_attributes = {
