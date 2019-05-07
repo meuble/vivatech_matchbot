@@ -12,4 +12,15 @@ RSpec.describe VivatechMatchbot, type: :routing do
       end
     end
   end
+
+  describe "Results" do
+    describe "Index" do
+      it "should route to results#index" do
+        expect(get: "/").to route_to(
+          controller: "results",
+          action: "index"
+        )
+      end
+    end
+  end
 end
