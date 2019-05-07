@@ -2,6 +2,7 @@ class Api::V1::DataController < ApplicationController
   include Authenticable
   include ExceptionHandler
   before_action :require_token
+  skip_before_action :verify_authenticity_token
   
   def create
     permitted_params = data_params
@@ -15,7 +16,7 @@ class Api::V1::DataController < ApplicationController
 
 private
   def data_params
-    params.permit(:skin_type, :prefered_color, :prefered_scent, :prefered_brand, :age_group)
+    params.except(:format, :token, :auth_token).permit(:skin_type, :prefered_color, :prefered_scent, :prefered_brand, :age_group)
   end
 
   def data_controlled_json_attributes
