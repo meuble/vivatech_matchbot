@@ -1,7 +1,7 @@
 class Api::V1::DataController < ApplicationController
   include Authenticable
   include ExceptionHandler
-  before_action :require_token
+  before_action :require_token, except: [:index]
   skip_before_action :verify_authenticity_token
   
   def create
@@ -12,6 +12,13 @@ class Api::V1::DataController < ApplicationController
     else
       render json: {errors: @datum.errors}, status: :bad_request
     end
+  end
+  
+  def index
+    render json: {
+      dataCount: Datum.count,
+      skinTypeResults: Datum.skin_type_results
+    }, status: :ok
   end
 
 private

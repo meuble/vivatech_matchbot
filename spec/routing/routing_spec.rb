@@ -10,6 +10,14 @@ RSpec.describe VivatechMatchbot, type: :routing do
           format: "json"
         )
       end
+
+      it "should route to data#index" do
+        expect(get: "/api/v1/data.json").to route_to(
+          controller: "api/v1/data",
+          action: "index",
+          format: "json"
+        )
+      end
     end
   end
 

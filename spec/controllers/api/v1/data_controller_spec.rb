@@ -97,4 +97,50 @@ RSpec.describe Api::V1::DataController, type: :controller do
       end
     end
   end
+  
+  describe "#index" do
+    it "should render json" do
+      get :index, format: :json
+      expect(response.header['Content-Type']).to include('application/json')
+    end
+
+    describe "with no authentication" do
+      before :each do
+        10.times { FactoryBot.create(:datum) }
+      end
+
+      it "should return dataCount key" do
+        get :index, format: :json
+        data = JSON.parse(response.body)
+        expect(data["dataCount"]).to eq(Datum.count)
+      end
+
+      it "should return skinTypeResults key" do
+        expect(Datum).to receive(:skin_type_results).and_return("valid_skin_type_results")
+        get :index, format: :json
+        data = JSON.parse(response.body)
+        expect(data["skinTypeResults"]).to eq("valid_skin_type_results")
+      end
+    end
+
+    describe "with authentication" do
+      before :each do
+        10.times { FactoryBot.create(:datum) }
+        allow(controller).to receive(:require_token).and_return(true)
+      end
+      
+      it "should return dataCount key" do
+        get :index, format: :json
+        data = JSON.parse(response.body)
+        expect(data["dataCount"]).to eq(Datum.count)
+      end
+
+      it "should return skinTypeResults key" do
+        expect(Datum).to receive(:skin_type_results).and_return("valid_skin_type_results")
+        get :index, format: :json
+        data = JSON.parse(response.body)
+        expect(data["skinTypeResults"]).to eq("valid_skin_type_results")
+      end
+    end
+  end
 end
