@@ -41,7 +41,7 @@ class Stats extends React.Component {
       <React.Fragment>
         { this.state.isFetching && <Loader isFetching={this.state.isFetching} /> }
         <DataCounter count={this.state.dataCount} />
-        <div className="results card-deck">
+        <div className="results card-group">
           {this.state.skinTypeResults.map((skinTypeResult) => (
             <SkinTypeResult
               key={skinTypeResult.title}
