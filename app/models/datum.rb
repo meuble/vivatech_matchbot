@@ -27,8 +27,20 @@ class Datum < ApplicationRecord
     {
       title: skin_type,
       scent: self.scent_results(skin_type),
-      colors: self.color_results(skin_type)
+      colors: self.color_results(skin_type),
+      brand: self.brand_results(skin_type),
+      age_group: self.age_group_results(skin_type)
     }
+  end
+
+  def self.age_group_results(skin_type)
+    Datum.where(skin_type: skin_type).group(:age_group).count
+            .sort_by(&:last).reverse.first.first
+  end
+
+  def self.brand_results(skin_type)
+    Datum.where(skin_type: skin_type).group(:prefered_brand).count
+            .sort_by(&:last).reverse.first.first
   end
 
   def self.scent_results(skin_type)
