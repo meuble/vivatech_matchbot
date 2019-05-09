@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 
 import DataCounter from './DataCounter';
 import SkinTypeResult from './SkinTypeResult';
+import Loader from './Loader';
 
 const DATA_SERVICE_URL = window.location.origin + "/api/v1/data.json"
 
@@ -38,9 +39,9 @@ class Stats extends React.Component {
   render () {
     return (
       <React.Fragment>
-        <p>{this.state.isFetching ? 'Fetching data...' : ''}</p>
+        { this.state.isFetching && <Loader isFetching={this.state.isFetching} /> }
         <DataCounter count={this.state.dataCount} />
-        <div className="results">
+        <div className="results card-deck">
           {this.state.skinTypeResults.map((skinTypeResult) => (
             <SkinTypeResult
               key={skinTypeResult.title}

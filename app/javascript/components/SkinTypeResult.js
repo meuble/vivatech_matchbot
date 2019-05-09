@@ -1,17 +1,29 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const SkinTypeResult = ({type, scent, colors}) => <div className="skin-type-result">
-  <h2>{type}</h2>
-  <div className="result-scent">
-    <p>Ils ont préféré le parfum {scent}</p>
+import './SkinTypeResult.css'
+
+const SkinTypeResult = ({type, scent, colors}) => {
+  var maxCount = Math.max.apply(Math, colors.map((e) => e.count))
+  maxCount = colors.map((e) => e.count).reduce((v, e) => v + e)
+  return <div className="skin-type-result card">
+    <div className="card-header">
+      <h2>{type}</h2>
+    </div>
+    <div className="card-body">
+      <div className="result-scent">
+        <p>Ils ont préféré le parfum {scent}</p>
+      </div>
+      <ul className="result-colors" max={maxCount}>
+        {colors.map((color, index) => (
+          <li className={"color " + color.color} key={color.color} value={color.count} >
+            <span>{color.color} ({Math.floor(color.count * 100 / maxCount)}%)</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
-  <div className="result-colors">
-    {colors.map((color, index) => (
-      <div className="color" key={color.color}>{color.color}: {color.count}</div>
-    ))}
-  </div>
-</div>
+}
 
 SkinTypeResult.proptypes = {
   type: PropTypes.string.is_required,
@@ -25,5 +37,3 @@ SkinTypeResult.proptypes = {
 }
 
 export default SkinTypeResult
-
-
