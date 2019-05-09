@@ -179,45 +179,85 @@ RSpec.describe Datum, type: :model do
   
   describe ".skin_type_result" do
     before :each do
+      @skin_type = Datum::SKIN_TYPES[0]
       s1, s2, s3, s4 =
-        FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Datum::SCENTS[0],
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[0],
           prefered_color: Datum::COLORS[0]),
-        FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Datum::SCENTS[0],
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[0],
           prefered_color: Datum::COLORS[0]),
-        FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Datum::SCENTS[1],
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[1],
           prefered_color: Datum::COLORS[1]),
         FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
-      @result = Datum.skin_type_result(Datum::SKIN_TYPES[0])
     end
 
     it "should return an hash" do
-      expect(@result).to be_a(Hash)
+      expect(Datum.skin_type_result(@skin_type)).to be_a(Hash)
     end
     
     it "should return a title key" do
-      expect(@result[:title]).to eq(Datum::SKIN_TYPES[0])
+      result = Datum.skin_type_result(@skin_type)
+      expect(result[:title]).to eq(Datum::SKIN_TYPES[0])
     end
     
-    it "should return a top_scent key" do
-      expect(@result[:scent]).to eq(Datum::SCENTS[0])
+    it "should return a scent key" do
+      expect(Datum).to receive(:scent_results).with(@skin_type).and_return("scent_results")
+      result = Datum.skin_type_result(@skin_type)
+      expect(result[:scent]).to eq("scent_results")
     end
     
-    describe "for the colors key" do
-      it "should return all available colors" do
-        colors = @result[:colors]
-        expect(colors.size).to eq(Datum::COLORS.size)
-      end
+    it "should return a color key" do
+      expect(Datum).to receive(:color_results).with(@skin_type).and_return("color_results")
+      result = Datum.skin_type_result(@skin_type)
+      expect(result[:colors]).to eq("color_results")
+    end
+  end
+  
+  describe ".color_results" do
+    before :each do
+      @skin_type = Datum::SKIN_TYPES[0]
+      s1, s2, s3, s4 =
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[0],
+          prefered_color: Datum::COLORS[0]),
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[0],
+          prefered_color: Datum::COLORS[0]),
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[1],
+          prefered_color: Datum::COLORS[1]),
+        FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
+    end
 
-      it "should return a correct count for declared colors" do
-        colors = @result[:colors]
-        expect(colors).to include({color: Datum::COLORS[0], count: 2})
-        expect(colors).to include({color: Datum::COLORS[1], count: 1})
-      end
-      
-      it "should return 0 count for undeclared colors" do
-        colors = @result[:colors]
-        expect(colors).to include({color: Datum::COLORS[2], count: 0})
-      end
+    it "should return all available colors" do
+      colors = Datum.color_results(@skin_type)
+      expect(colors.size).to eq(Datum::COLORS.size)
+    end
+
+    it "should return a correct count for declared colors" do
+      colors = Datum.color_results(@skin_type)
+      expect(colors).to include({color: Datum::COLORS[0], count: 2})
+      expect(colors).to include({color: Datum::COLORS[1], count: 1})
+    end
+    
+    it "should return 0 count for undeclared colors" do
+      colors = Datum.color_results(@skin_type)
+      expect(colors).to include({color: Datum::COLORS[2], count: 0})
+    end
+  end
+  
+  describe ".scent_results" do
+    before :each do
+      @skin_type = Datum::SKIN_TYPES[0]
+      s1, s2, s3, s4 =
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[0],
+          prefered_color: Datum::COLORS[0]),
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[0],
+          prefered_color: Datum::COLORS[0]),
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[1],
+          prefered_color: Datum::COLORS[1]),
+        FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
+    end
+
+    it "should return most prefered scent" do
+      result = Datum.skin_type_result(@skin_type)      
+      expect(result[:scent]).to eq(Datum::SCENTS[0])
     end
   end
 end
