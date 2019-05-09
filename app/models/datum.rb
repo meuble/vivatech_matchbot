@@ -15,4 +15,20 @@ class Datum < ApplicationRecord
     message: "%{value} is not a valid age group" }
   validates :prefered_brand, inclusion: { in: BRANDS,
     message: "%{value} is not a valid brand" }
+
+
+  def self.skin_type_results
+    Datum.select(:skin_type).distinct.map(&:skin_type).map do |skin_type|
+      self.skin_type_result(skin_type)
+    end
+  end
+  
+  def self.skin_type_result(skin_type)
+    {
+      title: skin_type,
+      scent: Datum.where(skin_type: skin_type).group(:prefered_scent).count
+        .sort_by(&:last).reverse.first.first,
+      colors: Datum.where(skin_type: skin_type).group(:prefered_color).count.map {|c, v| {color: c, count: v}}
+    }
+  end
 end
