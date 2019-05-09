@@ -48,6 +48,8 @@ class Stats extends React.Component {
               type={skinTypeResult.title}
               scent={skinTypeResult.scent}
               colors={skinTypeResult.colors}
+              brand={skinTypeResult.brand}
+              age_group={skinTypeResult.age_group}
             />
           ))}
         </div>
@@ -62,6 +64,8 @@ Stats.propTypes = {
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       scent: PropTypes.string.isRequired,
+      age_group: PropTypes.string.is_required,
+      brand: PropTypes.string.is_required,
       colors: PropTypes.arrayOf(
         PropTypes.shape({
           color: PropTypes.string.isRequired,
