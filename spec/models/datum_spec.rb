@@ -202,11 +202,22 @@ RSpec.describe Datum, type: :model do
       expect(@result[:scent]).to eq(Datum::SCENTS[0])
     end
     
-    it "should return a colors key" do
-      colors = @result[:colors]
-      expect(colors.size).to eq(2)
-      expect(colors).to include({color: Datum::COLORS[0], count: 2})
-      expect(colors).to include({color: Datum::COLORS[1], count: 1})
+    describe "for the colors key" do
+      it "should return all available colors" do
+        colors = @result[:colors]
+        expect(colors.size).to eq(Datum::COLORS.size)
+      end
+
+      it "should return a correct count for declared colors" do
+        colors = @result[:colors]
+        expect(colors).to include({color: Datum::COLORS[0], count: 2})
+        expect(colors).to include({color: Datum::COLORS[1], count: 1})
+      end
+      
+      it "should return 0 count for undeclared colors" do
+        colors = @result[:colors]
+        expect(colors).to include({color: Datum::COLORS[2], count: 0})
+      end
     end
   end
 end

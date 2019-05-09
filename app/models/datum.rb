@@ -24,11 +24,14 @@ class Datum < ApplicationRecord
   end
   
   def self.skin_type_result(skin_type)
+    colors = Datum.where(skin_type: skin_type).group(:prefered_color).count
+    colors = COLORS.inject({}) {|a, c| a[c] = 0; a}.merge(colors)
+    colors = colors.map {|c, v| {color: c, count: v}}
     {
       title: skin_type,
       scent: Datum.where(skin_type: skin_type).group(:prefered_scent).count
         .sort_by(&:last).reverse.first.first,
-      colors: Datum.where(skin_type: skin_type).group(:prefered_color).count.map {|c, v| {color: c, count: v}}
+      colors: colors
     }
   end
 end
