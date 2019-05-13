@@ -114,10 +114,10 @@ RSpec.describe Datum, type: :model do
     end
 
     describe "prefered_brand" do
-      it "should be present" do
+      it "should be mandatory" do
         @datum.prefered_brand = nil
-        expect(@datum.save).to be_falsy
-        expect(@datum.errors).to include(:prefered_brand)
+        expect(@datum.save).to be_truthy
+        expect(@datum.errors).not_to include(:prefered_brand)
       end
 
       it "should be included in a valid set" do

@@ -11,7 +11,7 @@ class Datum < ApplicationRecord
   validates :age_group, inclusion: { in: AGE_GROUPS,
     message: "%{value} is not a valid age group" }
   validates :prefered_brand, inclusion: { in: BRANDS,
-    message: "%{value} is not a valid brand" }
+    message: "%{value} is not a valid brand" }, allow_nil: true
 
   def age=(original_age)
     age = original_age.to_i
