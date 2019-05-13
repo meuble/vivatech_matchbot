@@ -1,9 +1,9 @@
 class Datum < ApplicationRecord
-  SKIN_TYPES = %w(pale brown dark yellow green)
-  COLORS = %w(red purple blue)
+  SKIN_TYPES = %w(Claire Matte Foncées)
+  COLORS = ["Rose Gourmand", "Rose Ancien", "Rose Corail", "Rouge Romantique", "Rouge Glamour", "Rouge Cerise"]
   SCENTS = %w(rose lila)
   AGE_GROUPS = %w(0_15 16_30 31_45 46_60 60+)
-  BRANDS = %w(Sephora Marionaud Monoprix YvesRocher)
+  BRANDS = ["Sephora", "Beautymix", "Monoprix", "Glossier", "Mademoiselle Bio", "Autre"]
   
   validates :skin_type, inclusion: { in: SKIN_TYPES,
     message: "%{value} is not a valid skin type" }

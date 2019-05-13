@@ -55,7 +55,7 @@ RSpec.describe Datum, type: :model do
         @datum.skin_type = "124"
         expect(@datum.save).to be_falsy
         expect(@datum.errors).to include(:skin_type)
-        @datum.skin_type = "pale"
+        @datum.skin_type = Datum::SKIN_TYPES.shuffle.first
         @datum.save
         expect(@datum.save).to be_truthy
         expect(@datum.errors).not_to include(:skin_type)
@@ -79,7 +79,7 @@ RSpec.describe Datum, type: :model do
         @datum.prefered_color = "124"
         expect(@datum.save).to be_falsy
         expect(@datum.errors).to include(:prefered_color)
-        @datum.prefered_color = "red"
+        @datum.prefered_color = Datum::COLORS.shuffle.first
         expect(@datum.save).to be_truthy
         expect(@datum.errors).not_to include(:prefered_color)
       end
@@ -102,7 +102,7 @@ RSpec.describe Datum, type: :model do
         @datum.prefered_scent = "124"
         expect(@datum.save).to be_falsy
         expect(@datum.errors).to include(:prefered_scent)
-        @datum.prefered_scent = "lila"
+        @datum.prefered_scent = Datum::SCENTS.shuffle.first
         expect(@datum.save).to be_truthy
         expect(@datum.errors).not_to include(:prefered_scent)
       end
@@ -148,7 +148,7 @@ RSpec.describe Datum, type: :model do
         @datum.prefered_brand = "124"
         expect(@datum.save).to be_falsy
         expect(@datum.errors).to include(:prefered_brand)
-        @datum.prefered_brand = "Monoprix"
+        @datum.prefered_brand = Datum::BRANDS.shuffle.first
         expect(@datum.save).to be_truthy
         expect(@datum.errors).not_to include(:prefered_brand)
       end
