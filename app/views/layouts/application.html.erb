@@ -15,7 +15,10 @@
   </head>
 
   <body>
-    <div class="container-fluid">
+    <div id="sidebar">
+      <%= react_component("Header") %>
+    </div>
+    <div class="content">
       <%= yield %>
     </div>
     

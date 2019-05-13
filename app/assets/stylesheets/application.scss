@@ -13,3 +13,28 @@
  *= require_tree .
  *= require_self
  */
+
+#sidebar {
+  z-index: 1000;
+  position: fixed;
+  height: 100%;
+  width: 300px;
+  border-right: 20px solid #FFD948;
+  padding: 10px;
+
+  img {
+    margin: 20px auto;
+  }
+  .vivatech {
+    width: 70%;
+    display: block;
+  }
+  .footer {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+.content {
+  margin-left: 320px;
+}
