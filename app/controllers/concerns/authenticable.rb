@@ -16,7 +16,7 @@ module Authenticable
   end
   
   def require_token
-    if token.present? && token === Rails.application.credentials.dig(:api, :token)
+    if token.present? && token === (Rails.application.credentials.dig(:api, :token) || ENV["API_KEY"])
     else
       raise Authenticable::BadToken.new
     end
