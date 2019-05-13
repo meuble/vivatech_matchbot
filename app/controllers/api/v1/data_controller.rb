@@ -23,12 +23,12 @@ class Api::V1::DataController < ApplicationController
 
 private
   def data_params
-    params.except(:format, :token, :auth_token).permit(:skin_type, :prefered_color, :prefered_scent, :prefered_brand, :age_group, :age)
+    params.except(:format, :token, :auth_token).permit(:skin_type, :prefered_color, :prefered_scent, :prefered_brand, :age_group, :age, :zipcode)
   end
 
   def data_controlled_json_attributes
     { 
-      only: [:id, :skin_type, :prefered_color, :prefered_scent, :prefered_brand, :age_group]
+      only: [:id, :skin_type, :prefered_color, :prefered_scent, :prefered_brand, :age_group, :zipcode]
     }
   end
   

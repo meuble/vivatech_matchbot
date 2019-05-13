@@ -14,7 +14,8 @@ RSpec.describe Api::V1::DataController, type: :controller do
           prefered_color: Faker::Color.color_name.to_s,
           prefered_brand: Faker::Lorem.word,
           age_group: Faker::Lorem.word,
-          prefered_scent: Faker::Lorem.word
+          prefered_scent: Faker::Lorem.word,
+          zipcode: Faker::Address.zip_code
         }
       end
 
@@ -43,6 +44,7 @@ RSpec.describe Api::V1::DataController, type: :controller do
             prefered_brand: Datum::BRANDS.shuffle.first,
             age_group: Datum::AGE_GROUPS.shuffle.first,
             prefered_scent: Faker::Lorem.word,
+            zipcode: Faker::Address.zip_code,
             auth_token: "authorized_token"
           }
         end
@@ -60,6 +62,7 @@ RSpec.describe Api::V1::DataController, type: :controller do
           expect(assigns(:datum).prefered_brand).to eq(@data_attributes[:prefered_brand])
           expect(assigns(:datum).age_group).to eq(@data_attributes[:age_group])
           expect(assigns(:datum).prefered_scent).to eq(@data_attributes[:prefered_scent])
+          expect(assigns(:datum).zipcode).to eq(@data_attributes[:zipcode])
         end
       
         it "should render newly created data" do
@@ -70,6 +73,7 @@ RSpec.describe Api::V1::DataController, type: :controller do
           expect(new_data["prefered_brand"]).to eq(@data_attributes[:prefered_brand])
           expect(new_data["age_group"]).to eq(@data_attributes[:age_group])
           expect(new_data["prefered_scent"]).to eq(@data_attributes[:prefered_scent])
+          expect(new_data["zipcode"]).to eq(@data_attributes[:zipcode])
         end
       
         it "should render 201 status" do
@@ -84,6 +88,7 @@ RSpec.describe Api::V1::DataController, type: :controller do
             prefered_brand: Datum::BRANDS.shuffle.first,
             age: Faker::Number.between(15, 100),
             prefered_scent: Faker::Lorem.word,
+            zipcode: Faker::Address.zip_code,
             auth_token: "authorized_token"
           }
           expect do

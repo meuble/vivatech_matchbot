@@ -26,6 +26,11 @@ RSpec.describe Datum, type: :model do
       expect(Datum.new).to respond_to(:prefered_brand)
       expect(Datum.new.attributes.keys).to include("prefered_brand")
     end
+
+    it "should have a zipcode" do
+      expect(Datum.new).to respond_to(:zipcode)
+      expect(Datum.new.attributes.keys).to include("zipcode")
+    end
   end
 
   describe "Validations" do

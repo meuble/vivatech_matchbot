@@ -5,5 +5,6 @@ FactoryBot.define do
     prefered_scent { Faker::Lorem.word }
     age_group { Datum::AGE_GROUPS.shuffle.first }
     prefered_brand { Datum::BRANDS.shuffle.first }
+    zipcode { Faker::Address.zip_code }
   end
 end
