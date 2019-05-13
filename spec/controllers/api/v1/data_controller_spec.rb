@@ -42,7 +42,7 @@ RSpec.describe Api::V1::DataController, type: :controller do
             prefered_color: Datum::COLORS.shuffle.first,
             prefered_brand: Datum::BRANDS.shuffle.first,
             age_group: Datum::AGE_GROUPS.shuffle.first,
-            prefered_scent: Datum::SCENTS.shuffle.first,
+            prefered_scent: Faker::Lorem.word,
             auth_token: "authorized_token"
           }
         end

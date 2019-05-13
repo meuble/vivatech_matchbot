@@ -85,29 +85,6 @@ RSpec.describe Datum, type: :model do
       end
     end
 
-    describe "prefered_scent" do
-      it "should be present" do
-        @datum.prefered_scent = nil
-        expect(@datum.save).to be_falsy
-        expect(@datum.errors).to include(:prefered_scent)
-      end
-
-      it "should be included in a valid set" do
-        @datum.prefered_scent = ""
-        expect(@datum.save).to be_falsy
-        expect(@datum.errors).to include(:prefered_scent)
-        @datum.prefered_scent = "toto"
-        expect(@datum.save).to be_falsy
-        expect(@datum.errors).to include(:prefered_scent)
-        @datum.prefered_scent = "124"
-        expect(@datum.save).to be_falsy
-        expect(@datum.errors).to include(:prefered_scent)
-        @datum.prefered_scent = Datum::SCENTS.shuffle.first
-        expect(@datum.save).to be_truthy
-        expect(@datum.errors).not_to include(:prefered_scent)
-      end
-    end
-
     describe "age_group" do
       it "should be present" do
         @datum.age_group = nil
@@ -157,11 +134,11 @@ RSpec.describe Datum, type: :model do
   
   describe ".skin_type_results" do
     before :each do
-      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Datum::SCENTS[0],
+      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Faker::Lorem.word,
         prefered_color: Datum::COLORS[0])
-      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Datum::SCENTS[0],
+      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Faker::Lorem.word,
         prefered_color: Datum::COLORS[0])
-      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Datum::SCENTS[1],
+      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Faker::Lorem.word,
         prefered_color: Datum::COLORS[1])
       FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
       FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[2])
@@ -251,16 +228,17 @@ RSpec.describe Datum, type: :model do
   describe ".scent_results" do
     before :each do
       @skin_type = Datum::SKIN_TYPES[0]
+      @last_scent = Faker::Lorem.word
       s1, s2, s3, s4 =
-        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[0]),
-        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[0]),
-        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Datum::SCENTS[1]),
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Faker::Lorem.word),
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: Faker::Lorem.word),
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_scent: @last_scent),
         FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
     end
 
     it "should return most prefered scent" do
       result = Datum.skin_type_result(@skin_type)      
-      expect(result[:scent]).to eq(Datum::SCENTS[0])
+      expect(result[:scent]).to eq(@last_scent)
     end
   end
 

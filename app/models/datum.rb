@@ -1,7 +1,6 @@
 class Datum < ApplicationRecord
   SKIN_TYPES = %w(Claire Matte Foncées)
   COLORS = ["Rose Gourmand", "Rose Ancien", "Rose Corail", "Rouge Romantique", "Rouge Glamour", "Rouge Cerise"]
-  SCENTS = %w(rose lila)
   AGE_GROUPS = %w(0_15 16_30 31_45 46_60 60+)
   BRANDS = ["Sephora", "Beautymix", "Monoprix", "Glossier", "Mademoiselle Bio", "Autre"]
   
@@ -9,8 +8,6 @@ class Datum < ApplicationRecord
     message: "%{value} is not a valid skin type" }
   validates :prefered_color, inclusion: { in: COLORS,
     message: "%{value} is not a valid color" }
-  validates :prefered_scent, inclusion: { in: SCENTS,
-    message: "%{value} is not a valid scent" }
   validates :age_group, inclusion: { in: AGE_GROUPS,
     message: "%{value} is not a valid age group" }
   validates :prefered_brand, inclusion: { in: BRANDS,
@@ -44,8 +41,7 @@ class Datum < ApplicationRecord
   end
 
   def self.scent_results(skin_type)
-    Datum.where(skin_type: skin_type).group(:prefered_scent).count
-            .sort_by(&:last).reverse.first.first
+    Datum.where(skin_type: skin_type).order(:created_at, :id).last.prefered_scent
   end
 
   def self.color_results(skin_type)
