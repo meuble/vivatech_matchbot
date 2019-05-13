@@ -76,6 +76,20 @@ RSpec.describe Api::V1::DataController, type: :controller do
           post :create, params: @data_attributes, format: :json
           expect(response).to have_http_status(201)
         end
+        
+        it "should create Datum with age instead of age_group" do
+          data_attributes = {
+            skin_type: Datum::SKIN_TYPES.shuffle.first,
+            prefered_color: Datum::COLORS.shuffle.first,
+            prefered_brand: Datum::BRANDS.shuffle.first,
+            age: Faker::Number.between(15, 100),
+            prefered_scent: Faker::Lorem.word,
+            auth_token: "authorized_token"
+          }
+          expect do
+            post :create, params: data_attributes, format: :json
+          end.to change(Datum, :count).by(1)
+        end
       end
     
       describe "with invalid parameters" do

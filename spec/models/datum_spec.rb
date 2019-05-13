@@ -102,7 +102,7 @@ RSpec.describe Datum, type: :model do
         @datum.age_group = "124"
         expect(@datum.save).to be_falsy
         expect(@datum.errors).to include(:age_group)
-        @datum.age_group = "46_60"
+        @datum.age_group = Datum::AGE_GROUPS.shuffle.first
         expect(@datum.save).to be_truthy
         expect(@datum.errors).not_to include(:age_group)
       end
@@ -129,6 +129,56 @@ RSpec.describe Datum, type: :model do
         expect(@datum.save).to be_truthy
         expect(@datum.errors).not_to include(:prefered_brand)
       end
+    end
+  end
+  
+  describe "#age=" do
+    it "should add error if bad param" do
+      datum = Datum.new
+      datum.age = "toto"
+      expect(datum.errors).to include(:age_group)
+    end
+    
+    it "should add error if age < 15" do
+      datum = Datum.new
+      datum.age = "toto"
+      expect(datum.errors).to include(:age_group)
+    end
+
+    it "should set the age_group according to the age as string" do
+      datum = Datum.new
+      datum.age = "15"
+      expect(datum.age_group).to eq("15-24")
+      
+      datum.age = "26"
+      expect(datum.age_group).to eq("25-34")
+      
+      datum.age = "40"
+      expect(datum.age_group).to eq("35-44")
+      
+      datum.age = "51"
+      expect(datum.age_group).to eq("45-54")
+      
+      datum.age = "55"
+      expect(datum.age_group).to eq("55+")
+    end
+    
+    it "should set the age_group according to the age as integer" do
+      datum = Datum.new
+      datum.age = 15
+      expect(datum.age_group).to eq("15-24")
+      
+      datum.age = 26
+      expect(datum.age_group).to eq("25-34")
+      
+      datum.age = 40
+      expect(datum.age_group).to eq("35-44")
+      
+      datum.age = 51
+      expect(datum.age_group).to eq("45-54")
+      
+      datum.age = 55
+      expect(datum.age_group).to eq("55+")
     end
   end
   

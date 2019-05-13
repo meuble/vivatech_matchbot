@@ -1,7 +1,7 @@
 class Datum < ApplicationRecord
   SKIN_TYPES = %w(Claire Matte Foncées)
   COLORS = ["Rose Gourmand", "Rose Ancien", "Rose Corail", "Rouge Romantique", "Rouge Glamour", "Rouge Cerise"]
-  AGE_GROUPS = %w(0_15 16_30 31_45 46_60 60+)
+  AGE_GROUPS = %w(15-24 25-34 35-44 45-54 55+)
   BRANDS = ["Sephora", "Beautymix", "Monoprix", "Glossier", "Mademoiselle Bio", "Autre"]
   
   validates :skin_type, inclusion: { in: SKIN_TYPES,
@@ -13,6 +13,26 @@ class Datum < ApplicationRecord
   validates :prefered_brand, inclusion: { in: BRANDS,
     message: "%{value} is not a valid brand" }
 
+  def age=(original_age)
+    age = original_age.to_i
+    if age < 15
+      self.errors.add(:age_group, "#{original_age} is not a valid age and should be over 14")
+      return
+    end
+    
+    case
+    when age > 14 && age < 25
+      self.age_group = "15-24"
+    when age > 24 && age < 35
+      self.age_group = "25-34"
+    when age > 34 && age < 45
+      self.age_group = "35-44"
+    when age > 44 && age < 55
+      self.age_group = "45-54"
+    else
+      self.age_group = "55+"
+    end
+  end
 
   def self.skin_type_results
     Datum.select(:skin_type).distinct.map(&:skin_type).map do |skin_type|
