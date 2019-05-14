@@ -53,8 +53,18 @@ class Datum < ApplicationRecord
       top_color: self.top_color_results(skin_type),
       brands: self.brand_results(skin_type, items_count),
       age_group: self.age_group_results(skin_type),
-      female_percentage: self.female_percentage_results(skin_type, items_count)
+      female_percentage: self.female_percentage_results(skin_type, items_count),
+      zipcode_percentage: self.zipcode_results(skin_type, items_count)
     }
+  end
+
+  def self.zipcode_results(skin_type, items_count)
+    d = Datum.where(skin_type: skin_type).group(:zipcode).count.inject({}) do |a, pair| 
+      a[pair.first[0..1]] ||= 0.0
+      a[pair.first[0..1]] += pair.last
+      a
+    end.sort_by(&:last)
+    d = d.map {|d, v| {count: (v / items_count * 100).round, name: d}}
   end
 
   def self.female_percentage_results(skin_type, items_count)

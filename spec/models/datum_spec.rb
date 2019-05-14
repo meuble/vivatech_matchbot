@@ -292,6 +292,12 @@ RSpec.describe Datum, type: :model do
       result = Datum.skin_type_result(@skin_type)
       expect(result[:female_percentage]).to eq("female_percentage_results")
     end
+    
+    it "should return a zipcode key" do
+      expect(Datum).to receive(:zipcode_results).with(@skin_type, 3).and_return("zipcode_results")
+      result = Datum.skin_type_result(@skin_type)
+      expect(result[:zipcode_percentage]).to eq("zipcode_results")
+    end
   end
   
   describe ".color_results" do
@@ -392,6 +398,32 @@ RSpec.describe Datum, type: :model do
     it "should only return top 2 brands" do
       brands = Datum.brand_results(@skin_type, 6)
       expect(brands.map(&:first)).not_to include(Datum::BRANDS[2])
+    end
+  end
+
+  describe ".zipcode_results" do
+    before :each do
+      @skin_type = Datum::SKIN_TYPES[0]
+      FactoryBot.create(:datum, skin_type: @skin_type, zipcode: 14503)
+      FactoryBot.create(:datum, skin_type: @skin_type, zipcode: 14502)
+      FactoryBot.create(:datum, skin_type: @skin_type, zipcode: 14501)
+      FactoryBot.create(:datum, skin_type: @skin_type, zipcode: 97839)
+      FactoryBot.create(:datum, skin_type: @skin_type, zipcode: 97839)
+      FactoryBot.create(:datum, skin_type: @skin_type, zipcode: 45946)
+      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
+    end
+
+    it "should return a correct rounded percentages for declared zipcode per department" do
+      zipcodes = Datum.zipcode_results(@skin_type, 6)
+      expect(zipcodes).to include({name: "14", count: 50})
+      expect(zipcodes).to include({name: "97", count: 33})
+      expect(zipcodes).to include({name: "45", count: 17})
+    end
+    
+    it "should only return declared zipcode" do
+      zipcodes = Datum.zipcode_results(@skin_type, 6)
+      expect(zipcodes.map(&:first)).not_to include("75")
+      expect(zipcodes.map(&:first)).not_to include("78")
     end
   end
 

@@ -2,8 +2,13 @@ import React from "react"
 import PropTypes from "prop-types"
 
 import ColorDiagram from "./ColorDiagram"
+import FranceMap from "./FranceMap"
 
-const SkinTypeResult = ({type, count, scent, top_color, colors, age_group, brands, female_percentage}) => {
+const SkinTypeResult = ({type, count, scent, top_color, colors, age_group, brands, female_percentage, zipcode_percentage}) => {
+  var zipcodes = zipcode_percentage.reduce((acc, zipcodeData) => {
+    acc[zipcodeData.name] = zipcodeData.count;
+    return acc;
+  }, {})
   return <div className={type + " skin-type-result card text-center"}>
     <div className="card-body">
       <ColorDiagram data={colors} />
@@ -25,15 +30,18 @@ const SkinTypeResult = ({type, count, scent, top_color, colors, age_group, brand
       <div className="result-brands">
         <ul>
           {brands.map((brand) => {
-            return <li>{brand.count}% {brand.name}</li>
+            return <li key={brand.name}>{brand.count}% {brand.name}</li>
           })}
         </ul>
       </div>
       <div className="row h-100">
-          <div className="col my-auto align-middle result-gender">
+          <div className="col-3 my-auto align-middle result-gender">
             <p>{female_percentage}%</p>
-          </div>          
-          <div className="col my-auto align-middle result-age">
+          </div>       
+          <div className="col">
+            <FranceMap className="france" key={type + "FranceMap"} percentages={zipcodes}/>
+          </div>   
+          <div className="col-3 my-auto align-middle result-age">
             <p>{age_group} ans</p>
           </div>
       </div>

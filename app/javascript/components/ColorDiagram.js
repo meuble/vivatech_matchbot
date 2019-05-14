@@ -6,7 +6,7 @@ const ColorDiagram = ({data}) => {
     var maxCount = data.map((e) => e.count).reduce((v, e) => v + e)
     return <Bar
       data={{
-        labels: data.map((e) => e.color),
+        labels: data.map((e) => e.color.split(" ").reverse()[0]),
         datasets: [{
           data: data.map((e) => Math.floor(e.count * 100 / maxCount)),
           backgroundColor: [
@@ -19,7 +19,7 @@ const ColorDiagram = ({data}) => {
           ]
         }]
       }} 
-      height={200}
+      height={150}
       options={{
         legend: {display: false},
         scales: {
