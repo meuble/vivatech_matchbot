@@ -10,12 +10,12 @@ const ColorDiagram = ({data}) => {
         datasets: [{
           data: data.map((e) => Math.floor(e.count * 100 / maxCount)),
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
+            'rgba(250, 121, 164, 1)', // #fa79a4 Rose Ancien
+            'rgba(241, 77, 77, 1)', // #f14d4d Rose Corail
+            'rgba(219, 0, 92, 1)', // #db005c Rose Gourmand
+            'rgba(162, 54, 70, 1)', // #a23646 Rouge Cerise
+            'rgba(198, 9, 36, 1)', // #c60924 Rouge Glamour
+            'rgba(205, 56, 77, 1)', // #cd384d Rouge Romantique
           ]
         }]
       }} 
