@@ -9,7 +9,7 @@ const Header = () => {
   return <div>
     <img src={HeaderLogo} className="logo" />
     <img src={HeaderImage} className="picture" />
-    <h1>Design and create your own lipstick</h1>
+    <h1>Design & create your own lipstick</h1>
     <img src={QRCode} />
     <div className="footer">
       <img src={Vivatech} className="vivatech mx-auto" />

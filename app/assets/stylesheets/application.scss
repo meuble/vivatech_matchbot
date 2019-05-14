@@ -14,6 +14,19 @@
  *= require_self
  */
 
+@font-face {
+   font-family: 'BebasNeue';
+   src: url('BebasNeue-Regular.ttf') format('truetype');
+   font-weight: normal;
+   font-style: normal;
+}
+@font-face {
+   font-family: 'BebasNeue';
+   src: url('BebasNeue-Bold.ttf') format('truetype');
+   font-weight: bold;
+   font-style: normal;
+}
+
 #sidebar {
   z-index: 1000;
   position: fixed;
@@ -21,7 +34,11 @@
   width: 300px;
   border-right: 20px solid #FFD948;
   padding: 10px;
-
+  h1 {
+    font-family: "BebasNeue";
+    text-transform: uppercase;
+    font-weight: bold;
+  }
   img {
     margin: 20px auto;
   }
