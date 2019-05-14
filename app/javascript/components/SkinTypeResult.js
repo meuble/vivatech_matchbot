@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 import ColorDiagram from "./ColorDiagram"
 
-const SkinTypeResult = ({type, count, scent, top_color, colors, age_group, brands}) => {
+const SkinTypeResult = ({type, count, scent, top_color, colors, age_group, brands, female_percentage}) => {
   return <div className={type + " skin-type-result card text-center"}>
     <div className="card-body">
       <ColorDiagram data={colors} />
@@ -29,8 +29,13 @@ const SkinTypeResult = ({type, count, scent, top_color, colors, age_group, brand
           })}
         </ul>
       </div>
-      <div className="result-age">
-        <p>Ils sont de la tranche d'age {age_group}</p>
+      <div className="row h-100">
+          <div className="col my-auto align-middle result-gender">
+            <p>{female_percentage}%</p>
+          </div>          
+          <div className="col my-auto align-middle result-age">
+            <p>{age_group} ans</p>
+          </div>
       </div>
     </div>
   </div>

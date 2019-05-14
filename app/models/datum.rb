@@ -3,6 +3,7 @@ class Datum < ApplicationRecord
   COLORS = ["Rose Ancien", "Rose Corail", "Rose Gourmand", "Rouge Cerise", "Rouge Glamour", "Rouge Romantique"]
   AGE_GROUPS = %w(15-24 25-34 35-44 45-54 55+)
   BRANDS = ["Sephora", "Beautymix", "Monoprix", "Glossier", "Mademoiselle Bio", "Autre"]
+  GENDERS = %w(Male Female Undefined)
   
   validates :skin_type, inclusion: { in: SKIN_TYPES,
     message: "%{value} is not a valid skin type" }
@@ -12,6 +13,8 @@ class Datum < ApplicationRecord
     message: "%{value} is not a valid age group" }
   validates :prefered_brand, inclusion: { in: BRANDS,
     message: "%{value} is not a valid brand" }, allow_nil: true
+  validates :gender, inclusion: { in: GENDERS,
+    message: "%{value} is not a valid gender" }, allow_nil: true
 
   def age=(original_age)
     age = original_age.to_i
@@ -49,8 +52,14 @@ class Datum < ApplicationRecord
       colors: self.color_results(skin_type),
       top_color: self.top_color_results(skin_type),
       brands: self.brand_results(skin_type, items_count),
-      age_group: self.age_group_results(skin_type)
+      age_group: self.age_group_results(skin_type),
+      female_percentage: self.female_percentage_results(skin_type, items_count)
     }
+  end
+
+  def self.female_percentage_results(skin_type, items_count)
+    ((Datum.where(skin_type: skin_type).where(gender: "Female").count + 0.0) / 
+      items_count * 100).round
   end
 
   def self.age_group_results(skin_type)

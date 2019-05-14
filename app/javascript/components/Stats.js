@@ -53,6 +53,7 @@ class Stats extends React.Component {
                 top_color={skinTypeResult.top_color}
                 brands={skinTypeResult.brands}
                 age_group={skinTypeResult.age_group}
+                female_percentage={skinTypeResult.female_percentage}
               />
             ))}
           </div>

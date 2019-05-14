@@ -31,6 +31,11 @@ RSpec.describe Datum, type: :model do
       expect(Datum.new).to respond_to(:zipcode)
       expect(Datum.new.attributes.keys).to include("zipcode")
     end
+
+    it "should have a gender" do
+      expect(Datum.new).to respond_to(:gender)
+      expect(Datum.new.attributes.keys).to include("gender")
+    end
   end
 
   describe "Validations" do
@@ -135,6 +140,29 @@ RSpec.describe Datum, type: :model do
         expect(@datum.errors).not_to include(:prefered_brand)
       end
     end
+    
+    describe "gender" do
+      it "should be mandatory" do
+        @datum.gender = nil
+        expect(@datum.save).to be_truthy
+        expect(@datum.errors).not_to include(:gender)
+      end
+
+      it "should be included in a valid set" do
+        @datum.gender = ""
+        expect(@datum.save).to be_falsy
+        expect(@datum.errors).to include(:gender)
+        @datum.gender = "toto"
+        expect(@datum.save).to be_falsy
+        expect(@datum.errors).to include(:gender)
+        @datum.gender = "124"
+        expect(@datum.save).to be_falsy
+        expect(@datum.errors).to include(:gender)
+        @datum.gender = Datum::GENDERS.shuffle.first
+        expect(@datum.save).to be_truthy
+        expect(@datum.errors).not_to include(:gender)
+      end
+    end
   end
   
   describe "#age=" do
@@ -189,12 +217,9 @@ RSpec.describe Datum, type: :model do
   
   describe ".skin_type_results" do
     before :each do
-      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Faker::Lorem.word,
-        prefered_color: Datum::COLORS[0])
-      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Faker::Lorem.word,
-        prefered_color: Datum::COLORS[0])
-      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0], prefered_scent: Faker::Lorem.word,
-        prefered_color: Datum::COLORS[1])
+      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0])
+      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0])
+      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[0])
       FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
       FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[2])
     end
@@ -212,11 +237,10 @@ RSpec.describe Datum, type: :model do
   describe ".skin_type_result" do
     before :each do
       @skin_type = Datum::SKIN_TYPES[0]
-      s1, s2, s3, s4 =
-        FactoryBot.create(:datum, skin_type: @skin_type),
-        FactoryBot.create(:datum, skin_type: @skin_type),
-        FactoryBot.create(:datum, skin_type: @skin_type),
-        FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
+      FactoryBot.create(:datum, skin_type: @skin_type)
+      FactoryBot.create(:datum, skin_type: @skin_type)
+      FactoryBot.create(:datum, skin_type: @skin_type)
+      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
     end
 
     it "should return an hash" do
@@ -225,7 +249,7 @@ RSpec.describe Datum, type: :model do
     
     it "should return a title key" do
       result = Datum.skin_type_result(@skin_type)
-      expect(result[:title]).to eq(Datum::SKIN_TYPES[0])
+      expect(result[:title]).to eq(Datum::SKIN_TYPES[0].parameterize)
     end
     
     it "should return a count key" do
@@ -262,6 +286,12 @@ RSpec.describe Datum, type: :model do
       result = Datum.skin_type_result(@skin_type)
       expect(result[:age_group]).to eq("age_group_results")
     end
+
+    it "should return a female_percentage key" do
+      expect(Datum).to receive(:female_percentage_results).with(@skin_type, 3).and_return("female_percentage_results")
+      result = Datum.skin_type_result(@skin_type)
+      expect(result[:female_percentage]).to eq("female_percentage_results")
+    end
   end
   
   describe ".color_results" do
@@ -288,6 +318,22 @@ RSpec.describe Datum, type: :model do
     it "should return 0 count for undeclared colors" do
       colors = Datum.color_results(@skin_type)
       expect(colors).to include({color: Datum::COLORS[2], count: 0})
+    end
+  end
+
+  describe ".female_percentage_results" do
+    before :each do
+      @skin_type = Datum::SKIN_TYPES[0]
+      @gender = Datum::GENDERS[1]
+      FactoryBot.create(:datum, skin_type: @skin_type, gender: @gender)
+      FactoryBot.create(:datum, skin_type: @skin_type, gender: @gender)
+      FactoryBot.create(:datum, skin_type: @skin_type, gender: Datum::GENDERS[0])
+      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
+    end
+    
+    it "should return the representation of declared female" do
+      result = Datum.female_percentage_results(@skin_type, 3)
+      expect(result).to eq(67)
     end
   end
   
