@@ -2,7 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 
 import Header from './Header';
-import DataCounter from './DataCounter';
 import SkinTypeResult from './SkinTypeResult';
 import Loader from './Loader';
 
@@ -40,19 +39,23 @@ class Stats extends React.Component {
   render () {
     return (
       <React.Fragment>
-        { this.state.isFetching && <Loader isFetching={this.state.isFetching} /> }
-        <DataCounter count={this.state.dataCount} />
-        <div className="results card-group">
-          {this.state.skinTypeResults.map((skinTypeResult) => (
-            <SkinTypeResult
-              key={skinTypeResult.title}
-              type={skinTypeResult.title}
-              scent={skinTypeResult.scent}
-              colors={skinTypeResult.colors}
-              brand={skinTypeResult.brand}
-              age_group={skinTypeResult.age_group}
-            />
-          ))}
+        <div className="container-fluid">
+          { this.state.isFetching && <Loader isFetching={this.state.isFetching} /> }
+          <h2>Tops produits par type de peau</h2>
+          <div className="results card-group">
+            {this.state.skinTypeResults.map((skinTypeResult) => (
+              <SkinTypeResult
+                key={skinTypeResult.title}
+                type={skinTypeResult.title}
+                count={skinTypeResult.count}
+                scent={skinTypeResult.scent}
+                colors={skinTypeResult.colors}
+                top_color={skinTypeResult.top_color}
+                brands={skinTypeResult.brands}
+                age_group={skinTypeResult.age_group}
+              />
+            ))}
+          </div>
         </div>
       </React.Fragment>
     );

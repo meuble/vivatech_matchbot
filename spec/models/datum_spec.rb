@@ -228,6 +228,11 @@ RSpec.describe Datum, type: :model do
       expect(result[:title]).to eq(Datum::SKIN_TYPES[0])
     end
     
+    it "should return a count key" do
+      result = Datum.skin_type_result(@skin_type)
+      expect(result[:count]).to eq(3)
+    end
+    
     it "should return a scent key" do
       expect(Datum).to receive(:scent_results).with(@skin_type).and_return("scent_results")
       result = Datum.skin_type_result(@skin_type)
@@ -239,11 +244,17 @@ RSpec.describe Datum, type: :model do
       result = Datum.skin_type_result(@skin_type)
       expect(result[:colors]).to eq("color_results")
     end
-    
-    it "should return a brand key" do
-      expect(Datum).to receive(:brand_results).with(@skin_type).and_return("brand_results")
+
+    it "should return a top_color key" do
+      expect(Datum).to receive(:top_color_results).with(@skin_type).and_return("top_color_results")
       result = Datum.skin_type_result(@skin_type)
-      expect(result[:brand]).to eq("brand_results")
+      expect(result[:top_color]).to eq("top_color_results")
+    end
+    
+    it "should return a brands key" do
+      expect(Datum).to receive(:brand_results).with(@skin_type, 3).and_return("brand_results")
+      result = Datum.skin_type_result(@skin_type)
+      expect(result[:brands]).to eq("brand_results")
     end
 
     it "should return a age_group key" do
@@ -280,6 +291,22 @@ RSpec.describe Datum, type: :model do
     end
   end
   
+  describe ".top_color_results" do
+    before :each do
+      @skin_type = Datum::SKIN_TYPES[0]
+      @top_color = Datum::COLORS[1]
+      FactoryBot.create(:datum, skin_type: @skin_type, prefered_color: @top_color)
+      FactoryBot.create(:datum, skin_type: @skin_type, prefered_color: @top_color)
+      FactoryBot.create(:datum, skin_type: @skin_type, prefered_color: Datum::COLORS[0])
+      FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
+    end
+    
+    it "should return the most prefered color" do
+      result = Datum.top_color_results(@skin_type)
+      expect(result).to eq(@top_color)
+    end
+  end
+  
   describe ".scent_results" do
     before :each do
       @skin_type = Datum::SKIN_TYPES[0]
@@ -292,8 +319,8 @@ RSpec.describe Datum, type: :model do
     end
 
     it "should return most prefered scent" do
-      result = Datum.skin_type_result(@skin_type)      
-      expect(result[:scent]).to eq(@last_scent)
+      result = Datum.scent_results(@skin_type)      
+      expect(result).to eq(@last_scent)
     end
   end
 
@@ -304,28 +331,38 @@ RSpec.describe Datum, type: :model do
         FactoryBot.create(:datum, skin_type: @skin_type, prefered_brand: Datum::BRANDS[0]),
         FactoryBot.create(:datum, skin_type: @skin_type, prefered_brand: Datum::BRANDS[1]),
         FactoryBot.create(:datum, skin_type: @skin_type, prefered_brand: Datum::BRANDS[0]),
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_brand: Datum::BRANDS[1]),
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_brand: Datum::BRANDS[0]),
+        FactoryBot.create(:datum, skin_type: @skin_type, prefered_brand: Datum::BRANDS[2]),
         FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
     end
 
-    it "should return most prefered scent" do
-      result = Datum.skin_type_result(@skin_type)
-      expect(result[:brand]).to eq(Datum::BRANDS[0])
+    it "should return a correct rounded percentages for declared brands" do
+      brands = Datum.brand_results(@skin_type, 6)
+      expect(brands).to include({name: Datum::BRANDS[0], count: 50})
+      expect(brands).to include({name: Datum::BRANDS[1], count: 33})
+    end
+    
+    it "should only return top 2 brands" do
+      brands = Datum.brand_results(@skin_type, 6)
+      expect(brands.map(&:first)).not_to include(Datum::BRANDS[2])
     end
   end
 
   describe ".age_group_results" do
     before :each do
       @skin_type = Datum::SKIN_TYPES[0]
+      @age_group = Datum::AGE_GROUPS[0]
       s1, s2, s3, s4 =
-        FactoryBot.create(:datum, skin_type: @skin_type, age_group: Datum::AGE_GROUPS[0]),
+        FactoryBot.create(:datum, skin_type: @skin_type, age_group: @age_group),
         FactoryBot.create(:datum, skin_type: @skin_type, age_group: Datum::AGE_GROUPS[1]),
-        FactoryBot.create(:datum, skin_type: @skin_type, age_group: Datum::AGE_GROUPS[0]),
+        FactoryBot.create(:datum, skin_type: @skin_type, age_group: @age_group),
         FactoryBot.create(:datum, skin_type: Datum::SKIN_TYPES[1])
     end
 
-    it "should return most prefered scent" do
-      result = Datum.skin_type_result(@skin_type)
-      expect(result[:age_group]).to eq(Datum::AGE_GROUPS[0])
+    it "should return most choosen age_group" do
+      result = Datum.age_group_results(@skin_type)
+      expect(result).to eq(@age_group)
     end
   end
 end

@@ -53,5 +53,102 @@
 }
 
 .content {
-  margin-left: 320px;
+  margin-left: 300px;
+  padding-top: 10px;
+  font-family: "Helvetica Neue" sans-serif;
+  
+  .card {
+    border: none;
+    
+    .result-color {
+      span {
+        color: #FC3A42;
+        font-size: 2em;
+        font-weight: bold;
+      }
+    }
+
+    .result-scent span {
+      display: inline-block;
+      padding-left: 2.7em;
+      background: transparent url("scent_icon.png") left center no-repeat;
+      background-size: 2.5em;
+      line-height: 2.5em;
+    }
+    .result-count span {
+      display: inline-block;
+      padding-left: 2.7em;
+      background: transparent url("count_icon.png") left center no-repeat;
+      background-size: 2.5em;
+      line-height: 2.5em;
+    }
+    .stats {
+      text-align: left;
+    }
+    .type {
+      margin-left: 20px;
+      padding-left: 2.7em;
+      background-size: 4em;
+      background-repeat: no-repeat;
+      background-position: left top;
+      line-height: 4em;
+    }
+    &.foncees {
+      .type {
+        background-image: url("foncees.png");
+      }
+    }
+    &.claire {
+      .type {
+        background-image: url("claire.png");
+      }
+    }
+    &.matte {
+      .type {
+        background-image: url("matte.png");
+      }
+    }
+    .result-brands {
+      text-align: left;
+
+      ul {
+        background: transparent url("brand_icon.png") left center no-repeat;
+        background-size: 2.5em;
+        padding-left: 3em; 
+        margin: 10px 40px;
+        
+        li {
+          list-style-type: none;
+        }
+      }
+    }
+    
+  }
+}
+
+h2 {
+  position: relative;
+  font-size: 1.2em;
+  padding: 0.5em 2.2em;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "BebasNeue";
+  color: #FFF;
+  background-color: #646464;
+  
+  &:before, &:after {
+    content:'';
+    margin-top: -0.5em;
+    border-width: 1.1em;
+    position: absolute;
+    border-style:solid;
+    border-color: #646464 #FFF #646464 #646464;
+  }
+  &:before {
+    left: 0em;
+    border-color: #646464 #646464 #646464 #FFF;
+  }
+  &:after {
+    right: 0;
+  }
 }

@@ -41,11 +41,14 @@ class Datum < ApplicationRecord
   end
   
   def self.skin_type_result(skin_type)
+    items_count = Datum.where(skin_type: skin_type).count
     {
-      title: skin_type,
+      title: skin_type.parameterize,
+      count: items_count,
       scent: self.scent_results(skin_type),
       colors: self.color_results(skin_type),
-      brand: self.brand_results(skin_type),
+      top_color: self.top_color_results(skin_type),
+      brands: self.brand_results(skin_type, items_count),
       age_group: self.age_group_results(skin_type)
     }
   end
@@ -55,13 +58,18 @@ class Datum < ApplicationRecord
             .sort_by(&:last).reverse.first.first
   end
 
-  def self.brand_results(skin_type)
+  def self.brand_results(skin_type, items_count)
     Datum.where(skin_type: skin_type).group(:prefered_brand).count
-            .sort_by(&:last).reverse.first.first
+            .sort_by(&:last).reverse[0..1].map {|b, v| {name: b, count: ((v + 0.0) / items_count * 100).round}}
   end
 
   def self.scent_results(skin_type)
     Datum.where(skin_type: skin_type).order(:created_at, :id).last.prefered_scent
+  end
+  
+  def self.top_color_results(skin_type)
+    Datum.where(skin_type: skin_type).group(:prefered_color).count
+            .sort_by(&:last).reverse.first.first
   end
 
   def self.color_results(skin_type)
