@@ -18,13 +18,13 @@ class Datum < ApplicationRecord
 
   def age=(original_age)
     age = original_age.to_i
-    if age < 15
+    if age < 1
       self.errors.add(:age_group, "#{original_age} is not a valid age and should be over 14")
       return
     end
     
     case
-    when age > 14 && age < 25
+    when age < 25
       self.age_group = "15-24"
     when age > 24 && age < 35
       self.age_group = "25-34"

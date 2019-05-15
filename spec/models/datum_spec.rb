@@ -177,14 +177,17 @@ RSpec.describe Datum, type: :model do
       expect(datum.errors).to include(:age_group)
     end
     
-    it "should add error if age < 15" do
+    it "should add error if age < 1" do
       datum = Datum.new
-      datum.age = "toto"
+      datum.age = 0
       expect(datum.errors).to include(:age_group)
     end
 
     it "should set the age_group according to the age as string" do
       datum = Datum.new
+      datum.age = "10"
+      expect(datum.age_group).to eq("15-24")
+      
       datum.age = "15"
       expect(datum.age_group).to eq("15-24")
       
@@ -203,6 +206,9 @@ RSpec.describe Datum, type: :model do
     
     it "should set the age_group according to the age as integer" do
       datum = Datum.new
+      datum.age = 9
+      expect(datum.age_group).to eq("15-24")
+      
       datum.age = 15
       expect(datum.age_group).to eq("15-24")
       
