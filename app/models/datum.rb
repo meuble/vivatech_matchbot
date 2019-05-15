@@ -3,7 +3,7 @@ class Datum < ApplicationRecord
   COLORS = ["Rose Ancien", "Rose Corail", "Rose Gourmand", "Rouge Cerise", "Rouge Glamour", "Rouge Romantique", "Aucun"]
   AGE_GROUPS = %w(15-24 25-34 35-44 45-54 55+)
   BRANDS = ["Sephora", "Beautymix", "Monoprix", "Glossier", "Mademoiselle Bio", "Autre"]
-  GENDERS = %w(Male Female Undefined)
+  GENDERS = %w(male female undefined)
   
   validates :skin_type, inclusion: { in: SKIN_TYPES,
     message: "%{value} is not a valid skin type" }
@@ -68,7 +68,7 @@ class Datum < ApplicationRecord
   end
 
   def self.female_percentage_results(skin_type, items_count)
-    ((Datum.where(skin_type: skin_type).where(gender: "Female").count + 0.0) / 
+    ((Datum.where(skin_type: skin_type).where(gender: "female").count + 0.0) / 
       items_count * 100).round
   end
 
