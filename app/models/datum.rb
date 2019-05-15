@@ -1,6 +1,6 @@
 class Datum < ApplicationRecord
-  SKIN_TYPES = %w(Claire Matte Foncées)
-  COLORS = ["Rose Ancien", "Rose Corail", "Rose Gourmand", "Rouge Cerise", "Rouge Glamour", "Rouge Romantique"]
+  SKIN_TYPES = %w(Claire Matte Foncée)
+  COLORS = ["Rose Ancien", "Rose Corail", "Rose Gourmand", "Rouge Cerise", "Rouge Glamour", "Rouge Romantique", "Aucun"]
   AGE_GROUPS = %w(15-24 25-34 35-44 45-54 55+)
   BRANDS = ["Sephora", "Beautymix", "Monoprix", "Glossier", "Mademoiselle Bio", "Autre"]
   GENDERS = %w(Male Female Undefined)
