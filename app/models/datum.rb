@@ -2,7 +2,7 @@ class Datum < ApplicationRecord
   SKIN_TYPES = %w(Claire Matte Foncée)
   COLORS = ["Rose Ancien", "Rose Corail", "Rose Gourmand", "Rouge Cerise", "Rouge Glamour", "Rouge Romantique", "Aucun"]
   AGE_GROUPS = %w(15-24 25-34 35-44 45-54 55+)
-  BRANDS = ["Sephora", "Beautymix", "Monoprix", "Glossier", "Mademoiselle Bio", "Autre"]
+  BRANDS = ["Sephora 🌟", "Beautymix 🌸", "Monoprix", "Glossier", "Mademoiselle Bio🌱", "Autre", "Je n'en achète pas 😌"]
   GENDERS = %w(male female undefined)
   
   validates :skin_type, inclusion: { in: SKIN_TYPES,
