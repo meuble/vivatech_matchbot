@@ -71,21 +71,21 @@
     .result-scent span {
       display: inline-block;
       padding-left: 2.7em;
-      background: transparent url("scent_icon.png") left center no-repeat;
+      background: transparent image-url("scent_icon.png") left center no-repeat;
       background-size: 2.5em;
       line-height: 2.5em;
     }
     .result-count span {
       display: inline-block;
       padding-left: 2.7em;
-      background: transparent url("count_icon.png") left center no-repeat;
+      background: transparent image-url("count_icon.png") left center no-repeat;
       background-size: 2.5em;
       line-height: 2.5em;
     }
     .result-gender {
       display: inline-block;
       padding-top: 3.3em;
-      background: transparent url("gender_icon.png") center top no-repeat;
+      background: transparent image-url("gender_icon.png") center top no-repeat;
       background-size: 1.6em;
       color: #FFD948;
       font-size: 1.3em;
@@ -110,24 +110,24 @@
     }
     &.foncees {
       .type {
-        background-image: url("foncees.png");
+        background-image: image-url("foncees.png");
       }
     }
     &.claire {
       .type {
-        background-image: url("claire.png");
+        background-image: image-url("claire.png");
       }
     }
     &.matte {
       .type {
-        background-image: url("matte.png");
+        background-image: image-url("matte.png");
       }
     }
     .result-brands {
       text-align: left;
 
       ul {
-        background: transparent url("brand_icon.png") left center no-repeat;
+        background: transparent image-url("brand_icon.png") left center no-repeat;
         background-size: 2.5em;
         padding-left: 3em; 
         margin: 10px 40px;
