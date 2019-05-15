@@ -34,7 +34,7 @@ const SkinTypeResult = ({type, count, scent, top_color, colors, age_group, brand
           })}
         </ul>
       </div>
-      <div className="row h-100">
+      <div className="row">
           <div className="col-3 my-auto align-middle result-gender">
             <p>{female_percentage}%</p>
           </div>       
