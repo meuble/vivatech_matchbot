@@ -36,6 +36,11 @@ RSpec.describe Datum, type: :model do
       expect(Datum.new).to respond_to(:gender)
       expect(Datum.new.attributes.keys).to include("gender")
     end
+
+    it "should have a department" do
+      expect(Datum.new).to respond_to(:department)
+      expect(Datum.new.attributes.keys).to include("department")
+    end
   end
 
   describe "Validations" do

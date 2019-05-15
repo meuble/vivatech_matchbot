@@ -28,7 +28,7 @@ private
 
   def data_controlled_json_attributes
     { 
-      only: [:id, :skin_type, :prefered_color, :prefered_scent, :prefered_brand, :age_group, :zipcode]
+      only: [:id, :skin_type, :prefered_color, :prefered_scent, :prefered_brand, :age_group, :department]
     }
   end
   

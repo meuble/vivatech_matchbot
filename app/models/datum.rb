@@ -36,6 +36,11 @@ class Datum < ApplicationRecord
       self.age_group = "55+"
     end
   end
+  
+  def zipcode=(original_zipcode)
+    self.department = original_zipcode.to_s[0..1] if original_zipcode.present?
+    self.attributes[:zipcode] = original_zipcode
+  end
 
   def self.skin_type_results
     Datum.select(:skin_type).distinct.map(&:skin_type).map do |skin_type|
@@ -59,9 +64,9 @@ class Datum < ApplicationRecord
   end
 
   def self.zipcode_results(skin_type, items_count)
-    d = Datum.where(skin_type: skin_type).group(:zipcode).count.inject({}) do |a, pair| 
-      a[pair.first[0..1]] ||= 0.0
-      a[pair.first[0..1]] += pair.last
+    d = Datum.where(skin_type: skin_type).group("department").count.inject({}) do |a, pair| 
+      a[pair.first] ||= 0.0
+      a[pair.first] += pair.last
       a
     end.sort_by(&:last)
     d = d.map {|d, v| {count: (v / items_count * 100).round, name: d}}

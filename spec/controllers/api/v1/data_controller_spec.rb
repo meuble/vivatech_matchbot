@@ -62,7 +62,7 @@ RSpec.describe Api::V1::DataController, type: :controller do
           expect(assigns(:datum).prefered_brand).to eq(@data_attributes[:prefered_brand])
           expect(assigns(:datum).age_group).to eq(@data_attributes[:age_group])
           expect(assigns(:datum).prefered_scent).to eq(@data_attributes[:prefered_scent])
-          expect(assigns(:datum).zipcode).to eq(@data_attributes[:zipcode])
+          expect(assigns(:datum).department).to eq(@data_attributes[:zipcode].to_s[0..1])
         end
       
         it "should render newly created data" do
@@ -73,7 +73,7 @@ RSpec.describe Api::V1::DataController, type: :controller do
           expect(new_data["prefered_brand"]).to eq(@data_attributes[:prefered_brand])
           expect(new_data["age_group"]).to eq(@data_attributes[:age_group])
           expect(new_data["prefered_scent"]).to eq(@data_attributes[:prefered_scent])
-          expect(new_data["zipcode"]).to eq(@data_attributes[:zipcode])
+          expect(new_data["department"]).to eq(@data_attributes[:zipcode].to_s[0..1])
         end
       
         it "should render 201 status" do

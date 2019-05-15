@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_14_132253) do
+ActiveRecord::Schema.define(version: 2019_05_15_124920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 2019_05_14_132253) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "zipcode"
     t.string "gender"
+    t.string "department"
+    t.index ["age_group"], name: "index_data_on_age_group"
+    t.index ["department"], name: "index_data_on_department"
+    t.index ["prefered_brand"], name: "index_data_on_prefered_brand"
+    t.index ["prefered_color"], name: "index_data_on_prefered_color"
+    t.index ["skin_type"], name: "index_data_on_skin_type"
+    t.index ["zipcode"], name: "index_data_on_zipcode"
   end
 
 end
