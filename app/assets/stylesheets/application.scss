@@ -16,13 +16,13 @@
 
 @font-face {
    font-family: 'BebasNeue';
-   src: url('BebasNeue-Regular.ttf') format('truetype');
+   src: font-url('BebasNeue-Regular.ttf') format('truetype');
    font-weight: normal;
    font-style: normal;
 }
 @font-face {
    font-family: 'BebasNeue';
-   src: url('BebasNeue-Bold.ttf') format('truetype');
+   src: font-url('BebasNeue-Bold.ttf') format('truetype');
    font-weight: bold;
    font-style: normal;
 }
