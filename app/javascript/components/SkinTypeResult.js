@@ -30,7 +30,9 @@ const SkinTypeResult = ({type, count, scent, top_color, colors, age_group, brand
       <div className="result-brands">
         <ul>
           {brands.map((brand) => {
-            return <li key={brand.name}>{brand.count}% {brand.name}</li>
+            if (brand.name != null) {
+              return <li key={brand.name}>{brand.count}% {brand.name}</li>
+            }
           })}
         </ul>
       </div>

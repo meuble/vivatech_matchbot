@@ -135,6 +135,9 @@
         li {
           list-style-type: none;
         }
+        li:only-child {
+          line-height: 2.3em;
+        }
       }
     }
     
