@@ -18,7 +18,8 @@ class Stats extends React.Component {
   }
   
   componentDidMount() {
-    this.timer = setInterval(() => this.fetchData(), 5000);
+    // this.timer = setInterval(() => this.fetchData(), 5000);
+    this.fetchData()
   }
   componentWillUnmount() {
     this.timer = null;
